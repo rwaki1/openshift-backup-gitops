@@ -1,0 +1,15 @@
+# clusters/production/backup/namespace.yaml
+# Creates both namespaces needed by the backup stack
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-adp
+  labels:
+    app.kubernetes.io/managed-by: flux
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-etcd-backup
+  labels:
+    app.kubernetes.io/managed-by: flux

@@ -1,0 +1,11 @@
+# clusters/production/backup/oadp/operatorgroup.yaml
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: openshift-adp-operatorgroup
+  namespace: openshift-adp
+  labels:
+    app.kubernetes.io/managed-by: flux
+spec:
+  targetNamespaces:
+    - openshift-adp   # OADP only watches this namespace (principle of least privilege)

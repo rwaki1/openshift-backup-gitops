@@ -1,0 +1,17 @@
+# clusters/production/backup/etcd/rbac.yaml
+# ClusterRoleBinding granting cluster-admin to the etcd backup SA
+# Required because etcd backup needs OS-level access on control plane nodes
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: etcd-backup-crb
+  labels:
+    app.kubernetes.io/managed-by: flux
+subjects:
+  - kind: ServiceAccount
+    name: etcd-backup-sa
+    namespace: openshift-etcd-backup
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin   # Required for etcd access — acceptable for a controlled CronJob SA

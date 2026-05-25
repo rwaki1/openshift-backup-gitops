@@ -1,0 +1,43 @@
+# clusters/production/backup/velero/dpa.yaml
+apiVersion: oadp.openshift.io/v1alpha1
+kind: DataProtectionApplication
+metadata:
+  name: openshift-dpa
+  namespace: openshift-adp
+  labels:
+    app.kubernetes.io/managed-by: flux
+spec:
+  configuration:
+    velero:
+      defaultPlugins:
+        - openshift   # Handles OpenShift-specific resources (Routes, DeploymentConfigs, ImageStreams)
+        - aws         # Handles S3-compatible object storage for backup archives
+        - csi         # Enables CSI VolumeSnapshot support (vSphere CSI snapshots)
+        - vsphere     # vSphere-specific VMDK-level backup plugin
+      resourceTimeout: 10m
+      logLevel: info
+      featureFlags:
+        - EnableCSI   # Must be explicitly enabled to use CSI snapshots
+    restic:
+      enable: true    # Deploys Restic/Kopia as a DaemonSet for file-level PV backups
+      supplementalGroups: [1000]
+  backupLocations:
+    - name: default
+      velero:
+        provider: aws   # Even for MinIO, we use the 'aws' provider (S3-compatible API)
+        default: true
+        objectStorage:
+          bucket: openshift-backups           # ⚠️ Replace with your bucket name
+          prefix: ocp-production              # Subdirectory inside the bucket
+        config:
+          region: us-east-1                   # For MinIO, this can be any string e.g. 'minio'
+          s3Url: https://minio.yourdomain.com # ⚠️ Replace with your S3 endpoint (omit for AWS)
+          insecureSkipTLSVerify: 'false'      # Always use TLS in production
+        credential:
+          name: cloud-credentials             # Secret containing AWS/MinIO access keys
+          key: cloud
+  volumeSnapshotLocations:
+    - name: csi-vsphere
+      velero:
+        provider: csi   # Use CSI VolumeSnapshot API
+        config: {}      # CSI config comes from the VolumeSnapshotClass
