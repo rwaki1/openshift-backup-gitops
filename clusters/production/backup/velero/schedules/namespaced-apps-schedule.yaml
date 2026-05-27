@@ -20,6 +20,3 @@ spec:
     includeClusterResources: false  # Do not include ClusterRoles, CRDs, etc.
     storageLocation: default        # Use the BSL named 'default' in our DPA
     ttl: 168h0m0s                   # 7 days retention
-    snapshotVolumes: true           # Also snapshot PVs for these namespaces
-    volumeSnapshotLocations:
-      - csi-vsphere                 # Use the VSL named 'csi-vsphere' in our DPA

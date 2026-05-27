@@ -16,6 +16,3 @@ spec:
     includeClusterResources: false
     storageLocation: default
     ttl: 48h0m0s            # 48 hours retention (rolling 2-day window)
-    snapshotVolumes: true
-    volumeSnapshotLocations:
-      - csi-vsphere
