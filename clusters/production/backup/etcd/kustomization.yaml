@@ -4,3 +4,4 @@ resources:
   - sa.yaml
   - rbac.yaml
   - cronjob.yaml
+  - namespace.yaml
