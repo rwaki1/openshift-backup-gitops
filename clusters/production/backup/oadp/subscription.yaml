@@ -3,11 +3,9 @@ kind: Subscription
 metadata:
   name: oadp-operator
   namespace: openshift-adp
-  labels:
-    app.kubernetes.io/managed-by: flux
 spec:
-  channel: stable-1.5.5
-  installPlanApproval: Automatic
+  channel: stable
   name: oadp-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace
+  installPlanApproval: Automatic
