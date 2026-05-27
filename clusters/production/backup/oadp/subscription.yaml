@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: flux
 spec:
-  channel: stable-1.5
+  channel: stable
   installPlanApproval: Automatic
   name: oadp-operator
   source: redhat-operators
