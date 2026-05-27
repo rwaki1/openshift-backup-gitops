@@ -5,7 +5,7 @@ metadata:
   namespace: openshift-adp
 spec:
   channel: stable
-  name: oadp-operator
+  name: redhat-oadp-operator        # ← THIS is the correct package name
   source: redhat-operators
   sourceNamespace: openshift-marketplace
   installPlanApproval: Automatic
