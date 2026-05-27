@@ -4,4 +4,3 @@ resources:
   - cluster-full-schedule.yaml
   - critical-ns-hourly-schedule.yaml
   - namespaced-apps-schedule.yaml
-  - pv-snapshots-schedule.yaml
