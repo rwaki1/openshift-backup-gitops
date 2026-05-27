@@ -3,5 +3,4 @@ kind: Kustomization
 resources:
   - dpa.yaml
   - bsl.yaml
-  - vsl.yaml
   - schedules
