@@ -11,7 +11,6 @@ spec:
       defaultPlugins:
         - openshift
         - aws
-      resourceTimeout: 10m
     restic:
       enable: true
       supplementalGroups: [1000]
