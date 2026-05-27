@@ -12,14 +12,12 @@ spec:
         - openshift
         - aws
       resourceTimeout: 10m
-      logLevel: info
     restic:
       enable: true
       supplementalGroups: [1000]
 
   backupLocations:
-    - name: default
-      velero:
+    - velero:
         provider: aws
         default: true
         objectStorage:
