@@ -11,7 +11,7 @@ spec:
     branch: master
   secretRef:
     name: flux-system
-  url: ssh://git@github.com/rwaki1/openshift-backup-gitops
+  url: ssh://git@github.com/rwaki1/openshift-backup-gitops.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
