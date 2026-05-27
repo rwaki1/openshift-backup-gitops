@@ -1,26 +1,25 @@
-# clusters/production/backup/kustomization.yaml
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: backup-stack
   namespace: flux-system
 spec:
-  interval: 10m          # Flux checks Git every 10 minutes
+  interval: 10m
   path: ./clusters/production/backup
-  prune: true            # If you delete a file from Git, Flux deletes it from the cluster
+  prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system    # References the GitRepository object created by flux bootstrap
+    name: flux-system
   dependsOn:
-    - name: flux-system  # Don't apply backup until Flux itself is healthy
+    - name: flux-system
   healthChecks:
     - apiVersion: apps/v1
       kind: Deployment
       name: velero
-      namespace: openshift-adp   # Flux waits for Velero to be Running
-  timeout: 5m            # If applying takes more than 5 minutes, mark as failed
-  retryInterval: 2m      # On failure, retry every 2 minutes
+      namespace: openshift-adp
+  timeout: 5m
+  retryInterval: 2m
   decryption:
     provider: sops
     secretRef:
-      name: sops-age     # The Age private key secret in flux-system namespace
+      name: sops-age
