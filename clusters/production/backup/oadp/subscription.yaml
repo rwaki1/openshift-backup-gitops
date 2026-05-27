@@ -1,14 +1,13 @@
-# clusters/production/backup/oadp/subscription.yaml
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: redhat-oadp-operator
+  name: oadp-operator
   namespace: openshift-adp
   labels:
     app.kubernetes.io/managed-by: flux
 spec:
-  channel: stable-1.4           # Update channel — use latest stable for 1.4.x releases
-  installPlanApproval: Automatic # OLM auto-approves minor updates (change to Manual for stricter control)
-  name: redhat-oadp-operator     # Package name in the catalog
-  source: redhat-operators       # The catalog source (ships with every OpenShift cluster)
+  channel: stable-1.5
+  installPlanApproval: Automatic
+  name: oadp-operator
+  source: redhat-operators
   sourceNamespace: openshift-marketplace
