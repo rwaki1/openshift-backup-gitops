@@ -4,9 +4,3 @@ kind: Kustomization
 resources:
   - gotk-components.yaml
   - gotk-sync.yaml
-
-# 🔥 REQUIRED for SOPS decryption
-decryption:
-  provider: sops
-  secretRef:
-    name: sops-age
