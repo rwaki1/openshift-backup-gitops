@@ -5,4 +5,3 @@ resources:
   - ./oadp
   - ./velero
   - ./etcd
-  - ./secrets
