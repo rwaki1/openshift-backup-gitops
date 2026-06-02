@@ -22,7 +22,6 @@ spec:
       defaultPlugins:
         - openshift
         - aws
-      disableSnapshots: false
     restic:
       enable: true
       supplementalGroups:
