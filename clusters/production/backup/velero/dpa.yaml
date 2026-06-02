@@ -1,31 +1,3 @@
-apiVersion: oadp.openshift.io/v1alpha1
-kind: DataProtectionApplication
-metadata:
-  name: openshift-dpa
-  namespace: openshift-adp
-  labels:
-    app.kubernetes.io/managed-by: flux
-spec:
-  configuration:
-    velero:
-      defaultPlugins:
-        - openshift
-        - aws
-    restic:
-      enable: true
-      supplementalGroups: [1000]
-
-  backupLocations:
-    - velero:
-        provider: aws
-        default: true
-        objectStorage:
-          bucket: openshift-backups
-          prefix: ocp-production
-        config:
-          region: us-east-1
-          s3Url: https://minio.yourdomain.com
-          insecureSkipTLSVerify: 'false'
-        credential:
-          name: cloud-credentials
-          key: cloud
+# This file is deprecated - DPA is now managed in oadp/dpa.yaml
+# Keeping this as a reference only
+# DO NOT include this in kustomization.yaml
