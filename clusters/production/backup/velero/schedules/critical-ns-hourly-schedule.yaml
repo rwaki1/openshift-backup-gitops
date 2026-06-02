@@ -1,0 +1,18 @@
+# clusters/production/backup/velero/schedules/critical-ns-hourly-schedule.yaml
+# Hourly backup of critical namespaces — short retention, high frequency
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: critical-ns-hourly
+  namespace: openshift-adp
+  labels:
+    app.kubernetes.io/managed-by: flux
+spec:
+  schedule: "0 * * * *"    # Every hour on the hour
+  template:
+    includedNamespaces:
+      - production          # ⚠️ Replace with your most critical namespaces
+      - infra
+    includeClusterResources: false
+    storageLocation: default
+    ttl: 48h0m0s            # 48 hours retention (rolling 2-day window)

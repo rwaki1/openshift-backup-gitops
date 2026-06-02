@@ -1,0 +1,21 @@
+# clusters/production/backup/velero/bsl.yaml
+apiVersion: velero.io/v1
+kind: BackupStorageLocation
+metadata:
+  name: default
+  namespace: openshift-adp
+  labels:
+    app.kubernetes.io/managed-by: flux
+spec:
+  provider: aws                             # S3-compatible provider
+  default: true
+  objectStorage:
+    bucket: openshift-backups              # ⚠️ Replace with your bucket name
+    prefix: ocp-production                 # Subdirectory inside the bucket
+  config:
+    region: us-east-1                      # For MinIO, can be any string e.g. 'minio'
+    s3Url: https://minio.yourdomain.com    # ⚠️ Replace with your S3 endpoint (omit for AWS)
+    insecureSkipTLSVerify: 'false'
+  credential:
+    name: cloud-credentials
+    key: cloud

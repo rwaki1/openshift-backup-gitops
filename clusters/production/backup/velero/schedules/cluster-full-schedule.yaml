@@ -1,0 +1,27 @@
+# clusters/production/backup/velero/schedules/cluster-full-schedule.yaml
+# Full cluster backup — all namespaces + cluster-scoped resources — runs daily at 2 AM
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: cluster-full
+  namespace: openshift-adp
+  labels:
+    app.kubernetes.io/managed-by: flux
+spec:
+  schedule: "0 2 * * *"    # Daily at 02:00 (low-traffic window)
+  template:
+    includeClusterResources: true   # Include ClusterRoles, CRDs, PVs, etc.
+    includedResources:
+      - "*"                         # All resource types
+    excludedResources:
+      - events                      # Events are high-volume and not needed for restore
+      - nodes                       # Nodes cannot be restored via YAML — infrastructure-level only
+    labelSelector:
+      matchExpressions:
+        - key: velero.io/exclude-from-backup
+          operator: DoesNotExist    # Skip any resource explicitly labeled for exclusion
+    storageLocation: default
+    ttl: 720h0m0s                   # 30 days retention
+    snapshotVolumes: true
+    volumeSnapshotLocations:
+      - csi-vsphere

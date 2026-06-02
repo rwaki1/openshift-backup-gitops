@@ -1,0 +1,56 @@
+# clusters/production/backup/etcd/cronjob.yaml
+# Runs OpenShift's cluster-backup.sh every 6 hours on a control plane node
+# Uses hostNetwork to reach etcd on localhost:2379
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: etcd-backup-pvc
+  namespace: openshift-etcd-backup
+  labels:
+    app.kubernetes.io/managed-by: flux
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi   # ⚠️ Adjust based on your cluster size and retention needs
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: etcd-backup
+  namespace: openshift-etcd-backup
+  labels:
+    app.kubernetes.io/managed-by: flux
+spec:
+  schedule: "0 */6 * * *"           # Every 6 hours — aligns with 14-day / 6h RPO target
+  successfulJobsHistoryLimit: 3     # Keep last 3 successful job pods for log review
+  failedJobsHistoryLimit: 1         # Keep 1 failed pod for debugging
+  concurrencyPolicy: Forbid         # Never run two backups at the same time
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: etcd-backup-sa
+          hostNetwork: true         # Required to reach etcd on localhost:2379
+          nodeSelector:
+            node-role.kubernetes.io/master: ""  # Must run on a control plane node
+          tolerations:
+            - operator: Exists      # Tolerate all taints (master nodes are tainted by default)
+          restartPolicy: OnFailure
+          containers:
+            - name: etcd-backup
+              image: quay.io/openshift/origin-cli:latest
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  /usr/local/bin/cluster-backup.sh /home/core/etcd-backup
+                  echo "Backup completed at $(date)"
+              volumeMounts:
+                - mountPath: /home/core/etcd-backup
+                  name: etcd-backup-vol
+          volumes:
+            - name: etcd-backup-vol
+              persistentVolumeClaim:
+                claimName: etcd-backup-pvc

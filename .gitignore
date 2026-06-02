@@ -1,0 +1,11 @@
+# Prevent accidental commit of unencrypted secrets
+# SOPS-encrypted files are safe to commit (they have 'sops:' metadata block inside)
+# Plaintext secrets must never be committed
+
+# Age private key — store outside the repo
+*.agekey
+age-private-key.txt
+
+# Temporary files
+*.tmp
+*.bak
