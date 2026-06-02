@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - operatorgroup.yaml
   - subscription.yaml
+  - dpa.yaml
