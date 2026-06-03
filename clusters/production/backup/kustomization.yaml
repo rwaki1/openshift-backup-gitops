@@ -5,4 +5,4 @@ resources:
   - ./oadp
   - ./velero
   - ./etcd
-  - ./secrets
+  # - ./secrets  # TEMPORARILY EXCLUDED: Kustomize panic with namespace field; will create secret manually
