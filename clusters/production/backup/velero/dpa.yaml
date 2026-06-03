@@ -1,3 +1,0 @@
-# This file is deprecated - DPA is now managed in oadp/dpa.yaml
-# Keeping this as a reference only
-# DO NOT include this in kustomization.yaml

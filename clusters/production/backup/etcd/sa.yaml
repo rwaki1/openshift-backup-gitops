@@ -1,8 +1,0 @@
-# clusters/production/backup/etcd/sa.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: etcd-backup-sa
-  namespace: openshift-etcd-backup
-  labels:
-    app.kubernetes.io/managed-by: flux
