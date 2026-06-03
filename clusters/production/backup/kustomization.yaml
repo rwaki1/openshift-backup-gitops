@@ -13,7 +13,6 @@ resources:
   - ./velero/schedules/cluster-full-schedule.yaml
   - ./velero/schedules/critical-ns-hourly-schedule.yaml
   - ./velero/schedules/namespaced-apps-schedule.yaml
-  - ./etcd/namespace.yaml
   - ./etcd/sa.yaml
   - ./etcd/rbac.yaml
   - ./etcd/cronjob.yaml
