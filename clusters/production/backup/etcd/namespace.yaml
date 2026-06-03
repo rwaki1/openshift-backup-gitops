@@ -1,7 +1,0 @@
-# clusters/production/backup/etcd/namespace.yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: openshift-etcd-backup
-  labels:
-    app.kubernetes.io/managed-by: flux
