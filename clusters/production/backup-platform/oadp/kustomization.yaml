@@ -4,4 +4,3 @@ namespace: openshift-adp
 resources:
   - operatorgroup.yaml
   - subscription.yaml
-  - dpa.yaml
