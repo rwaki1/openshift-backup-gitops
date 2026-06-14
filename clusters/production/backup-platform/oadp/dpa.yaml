@@ -13,8 +13,9 @@ spec:
           prefix: ocp-production
         config:
           region: us-east-1
-          s3Url: https://minio.yourdomain.com
-          insecureSkipTLSVerify: "false"
+          s3Url: http://minio.openshift-adp.svc:9000
+          insecureSkipTLSVerify: "true"
+          s3ForcePathStyle: "true"
         credential:
           name: cloud-credentials
           key: cloud
@@ -24,3 +25,5 @@ spec:
         - openshift
         - aws
         - csi
+    restic:
+      enable: false
