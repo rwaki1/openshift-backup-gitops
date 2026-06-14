@@ -6,3 +6,5 @@ resources:
   - ../../../clusters/production/backup-platform/secrets
   - ../../../clusters/production/backup-platform/oadp/dpa.yaml
   - ../../../clusters/production/backup-platform/velero
+patches:
+  - path: patch-dpa-no-csi.yaml
