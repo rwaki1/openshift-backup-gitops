@@ -4,3 +4,22 @@ resources:
 - gotk-components.yaml
 - gotk-sync.yaml
 - scc-bindings.yaml
+patches:
+- target:
+    kind: Deployment
+    name: source-controller
+    namespace: flux-system
+  patch: |-
+    - op: remove
+      path: /spec/template/spec/securityContext/fsGroup
+    - op: remove
+      path: /spec/template/spec/containers/0/securityContext/seccompProfile
+- target:
+    kind: Deployment
+    name: notification-controller
+    namespace: flux-system
+  patch: |-
+    - op: remove
+      path: /spec/template/spec/securityContext/fsGroup
+    - op: remove
+      path: /spec/template/spec/containers/0/securityContext/seccompProfile
