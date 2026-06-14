@@ -4,6 +4,7 @@ metadata:
   name: minio-create-bucket
   namespace: openshift-adp
 spec:
+  ttlSecondsAfterFinished: 120
   template:
     spec:
       restartPolicy: OnFailure
