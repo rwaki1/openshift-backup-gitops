@@ -1,0 +1,24 @@
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultStaticSecret
+metadata:
+  name: minio-creds-sync
+  namespace: openshift-adp
+spec:
+  vaultAuthRef: vault-auth
+  mount: mis
+  type: kv-v2
+  path: mis/minio
+  refreshAfter: 1h
+  destination:
+    name: cloud-credentials   # consumed by Velero / DPA credential ref
+    create: true
+    labels:
+      managed-by: vault-secrets-operator
+    transformation:
+      excludeRaw: true
+      templates:
+        cloud:                # key must match DPA spec.backupLocations[].velero.credential.key
+          text: |
+            [default]
+            aws_access_key_id={{ .Secrets.access_key }}
+            aws_secret_access_key={{ .Secrets.secret_key }}

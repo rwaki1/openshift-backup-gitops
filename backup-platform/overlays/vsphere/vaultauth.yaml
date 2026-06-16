@@ -1,0 +1,14 @@
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: vault-auth
+  namespace: openshift-adp
+spec:
+  vaultConnectionRef: vault-connection
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: mis-app          # ensure openshift-adp/default SA is bound to this role in Vault
+    serviceAccount: default
+    audiences:
+      - vault

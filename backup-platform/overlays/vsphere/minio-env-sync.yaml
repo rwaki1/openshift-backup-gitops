@@ -1,0 +1,23 @@
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultStaticSecret
+metadata:
+  name: minio-env-sync
+  namespace: openshift-adp
+spec:
+  vaultAuthRef: vault-auth
+  mount: mis
+  type: kv-v2
+  path: mis/minio
+  refreshAfter: 1h
+  destination:
+    name: minio-env-secret    # consumed by MinIO deployment env vars
+    create: true
+    labels:
+      managed-by: vault-secrets-operator
+    transformation:
+      excludeRaw: true
+      templates:
+        MINIO_ROOT_USER:
+          text: "{{ .Secrets.access_key }}"
+        MINIO_ROOT_PASSWORD:
+          text: "{{ .Secrets.secret_key }}"
