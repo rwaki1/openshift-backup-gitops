@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - serviceaccount.yaml
+  - scc.yaml
   - deployment.yaml
   - service.yaml
   - init-job.yaml

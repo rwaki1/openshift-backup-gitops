@@ -32,6 +32,8 @@ spec:
               value: "0.0.0.0:8200"
             - name: VAULT_ADDR
               value: "http://127.0.0.1:8200"
+            - name: VAULT_DISABLE_MLOCK
+              value: "true"
           readinessProbe:
             httpGet:
               path: /v1/sys/health
@@ -41,5 +43,5 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
-              add:
-                - IPC_LOCK
+              drop:
+                - ALL
