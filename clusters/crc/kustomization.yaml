@@ -6,3 +6,4 @@ resources:
   - backup-platform.yaml
   - vault.yaml
   - vso.yaml
+  - vso-secrets.yaml
