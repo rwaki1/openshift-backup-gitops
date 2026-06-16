@@ -1,0 +1,61 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: vault-init
+  namespace: vault
+spec:
+  ttlSecondsAfterFinished: 300
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: vault-init
+          image: hashicorp/vault:1.17
+          env:
+            - name: VAULT_ADDR
+              value: "http://vault.vault.svc:8200"
+            - name: VAULT_TOKEN
+              value: "root"
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              # Wait for Vault to be ready
+              until vault status; do
+                echo "Waiting for Vault..."
+                sleep 3
+              done
+
+              # Enable KV v2 secrets engine
+              vault secrets enable -version=2 kv || true
+
+              # Store MySQL credentials
+              vault kv put kv/mis/mysql \
+                root_password="Canada2026" \
+                user="misuser" \
+                password="mispass" \
+                database="military_mis"
+
+              echo "Secret stored: kv/mis/mysql"
+
+              # Enable Kubernetes auth
+              vault auth enable kubernetes || true
+
+              # Configure Kubernetes auth backend
+              vault write auth/kubernetes/config \
+                kubernetes_host="https://kubernetes.default.svc:443"
+
+              # Create read policy for MySQL secret
+              vault policy write mis-mysql - <<'EOF'
+              path "kv/data/mis/mysql" {
+                capabilities = ["read"]
+              }
+              EOF
+
+              # Create role — allows mis-restore namespace to read the secret
+              vault write auth/kubernetes/role/mis-app \
+                bound_service_account_names="default,vault" \
+                bound_service_account_namespaces="mis-restore,vault" \
+                policies="mis-mysql" \
+                ttl="1h"
+
+              echo "Vault initialized. MySQL secret ready at kv/mis/mysql"

@@ -4,3 +4,5 @@ resources:
   - flux-system
   - backup-operator.yaml
   - backup-platform.yaml
+  - vault.yaml
+  - vso.yaml
