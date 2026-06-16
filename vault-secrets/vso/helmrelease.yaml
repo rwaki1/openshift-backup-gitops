@@ -14,6 +14,11 @@ spec:
         name: hashicorp
         namespace: flux-system
   values:
+    controller:
+      manager:
+        image:
+          repository: docker.io/hashicorp/vault-secrets-operator
+          tag: "0.10.0"
     defaultVaultConnection:
       enabled: true
       address: "http://vault.vault.svc:8200"
